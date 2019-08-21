@@ -137,6 +137,7 @@
           {
             name: "Mixed Young Adult Small Group",
             leader: "Jordan Grogan",
+            neighborhood: "Moon",
             lat: 40.508670,
             long: -80.216240,
             filters: {
@@ -176,15 +177,34 @@
           loadGroupsOnMap();
         }
         function loadGroupsOnMap() {
-          for(let i=0; i<groups.length; i++)  {
-            var contentString = '<div class="groupInfo"><h1>' + groups[i].name + '</h1>Leader: ' + groups[i].leader + '</div>';
+          // For each group
+          for(let i=0; i<groups.length; i++) {
+
+            // Create info windows
+            let dayOfWeek = "";
+            let timeOfDay = "";
+            if(groups[i].filters.dayMon) dayOfWeek = "Monday";
+            if(groups[i].filters.dayTues) dayOfWeek = "Tuesday";
+            if(groups[i].filters.dayWed) dayOfWeek = "Wednesday";
+            if(groups[i].filters.dayThurs) dayOfWeek = "Thursday";
+            if(groups[i].filters.dayFri) dayOfWeek = "Friday";
+            if(groups[i].filters.daySat) dayOfWeek = "Saturday";
+            if(groups[i].filters.timeMorning) timeOfDay = "mornings";
+            if(groups[i].filters.timeAfternoon) timeOfDay = "afternoons";
+            if(groups[i].filters.timeEvening) timeOfDay = "evenings";
+            var contentString = '<div class="groupInfo"><h1>' + groups[i].name + '</h1>Leader: ' + groups[i].leader + '<br />Neighborhood: ' + groups[i].neighborhood + '<br />Meets ' + dayOfWeek + ' ' + timeOfDay + '<br /></div>';
             groupInfoWindows[i] = new google.maps.InfoWindow({
               content: contentString
             });
+
+            // Create markers
             groupMarkers[i] = new google.maps.Marker({position: {lat: groups[i].lat, lng: groups[i].long}, map: map, icon: crossroadsLogomark});
+
+            // Add click listener to markers to open info windows
             groupMarkers[i].addListener('click', function() {
               groupInfoWindows[i].open(map, groupMarkers[i]);
             });
+            
           }
         }
         function updateGroupsOnMap() {
