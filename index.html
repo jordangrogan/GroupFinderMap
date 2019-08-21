@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+
+      /* CSS Reset */
+      html, body, div, span, applet, object, iframe,
+      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, abbr, acronym, address, big, cite, code,
+      del, dfn, em, img, ins, kbd, q, s, samp,
+      small, strike, strong, sub, sup, tt, var,
+      b, u, i, center,
+      dl, dt, dd, ol, ul, li,
+      fieldset, form, label, legend,
+      table, caption, tbody, tfoot, thead, tr, th, td,
+      article, aside, canvas, details, embed, 
+      figure, figcaption, footer, header, hgroup, 
+      menu, nav, output, ruby, section, summary,
+      time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      /* HTML5 display-role reset for older browsers */
+      article, aside, details, figcaption, figure, 
+      footer, header, hgroup, menu, nav, section {
+        display: block;
+      }
+
+      body, html {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: hidden;
+      }
+      #container {
+        display: flex;
+        height: 100%;
+        width: 100%;
+      }
+      #map {
+        order: 0;
+        height: 100%;
+        width: 85%;
+       }
+       #controls {
+         order: 1;
+         width: 15%;
+         font-family: 'Avenir Next';
+         padding: 15px;
+         box-sizing: border-box;
+       }
+       .filter {
+         margin: 15px 0 15px 0;
+       }
+       h1 {
+         width: 100%;
+         text-align: center;
+         font-weight: bold;
+       }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <!--The div element for the map -->
+      <div id="map"></div>
+      <div id="controls">
+          <h1>Group Finder</h1>
+          <div class="filter">
+              Type<br />
+              <input type="checkbox" id="typeMixed" checked /> <label for="typeMixed">Mixed</label><br />
+              <input type="checkbox" id="typeMens" checked /> <label for="typeMens">Mens</label><br />
+              <input type="checkbox" id="typeWomens" checked /> <label for="typeWomens">Womens</label>
+            </div>  
+          <div class="filter">
+            Age Range<br />
+            <input type="checkbox" id="age20s" checked /> <label for="age20s">20s</label><br />
+            <input type="checkbox" id="age30s" checked /> <label for="age30s">30s</label><br />
+            <input type="checkbox" id="age40s" checked /> <label for="age40s">40s</label><br />
+            <input type="checkbox" id="age50s" checked /> <label for="age50s">50s</label><br />
+          </div>
+          <div class="filter">
+              Meeting Day<br />
+              <input type="checkbox" id="dayMon" checked /> <label for="dayMon">Monday</label><br />
+              <input type="checkbox" id="dayTues" checked /> <label for="dayTues">Tuesday</label><br />
+              <input type="checkbox" id="dayWed" checked /> <label for="dayWed">Wednesday</label><br />
+              <input type="checkbox" id="dayThurs" checked /> <label for="dayThurs">Thursday</label><br />
+              <input type="checkbox" id="dayFri" checked /> <label for="dayFri">Friday</label><br />
+              <input type="checkbox" id="daySat" checked /> <label for="daySat">Saturday</label>
+          </div>
+          <div class="filter">
+              Meeting Time<br />
+              <input type="checkbox" id="timeMorning" checked /> <label for="timeMorning">Morning</label><br />
+              <input type="checkbox" id="timeAfternoon" checked /> <label for="timeAfternoon">Afternoon</label><br />
+              <input type="checkbox" id="timeEvening" checked /> <label for="timeEvening">Evening</label>
+          </div>
+          <div class="filter">
+              Childcare Needed<br />
+              <input type="checkbox" id="childcare" checked /> <label for="childcare">Yes</label><br />
+              <input type="checkbox" id="noChildcare" checked /> <label for="noChildcare">No</label><br />
+          </div>
+        </div>
+    </div>
+    <script>
+        // Initialize and add the map
+        let filters = {
+            typeMens: true,
+            typeWomens: true,
+            typeMixed: true,
+            age20s: true,
+            age30s: true,
+            age40s: true,
+            age50s: true,
+            dayMon: true,
+            dayTues: true,
+            dayWed: true,
+            dayThurs: true,
+            dayFri: true,
+            daySat: true,
+            timeMorning: true,
+            timeAfternoon: true,
+            timeEvening: true,
+            childcare: true,
+            noChildcare: true
+        };
+        let map;
+        const groups = [
+          {
+            name: "Mixed Young Adult Small Group",
+            leader: "Jordan Grogan",
+            lat: 40.508670,
+            long: -80.216240,
+            filters: {
+              typeMens: false,
+              typeWomens: false,
+              typeMixed: true,
+              age20s: true,
+              age30s: false,
+              age40s: false,
+              age50s: false,
+              dayMon: false,
+              dayTues: false,
+              dayWed: false,
+              dayThurs: true,
+              dayFri: false,
+              daySat: false,
+              timeMorning: false,
+              timeAfternoon: false,
+              timeEvening: true,
+              childcare: false,
+              noChildcare: true
+            }
+          }
+        ];
+        let groupMarkers = [];
+        let crossroadsNFCoordinates = {lat: 40.440090, lng: -80.196000};
+        let crossroadsLogomark = {
+          url: 'crossroadslogomark.png',
+        };
+        let crossroadsLogomark2 = {
+          url: 'crossroadslogomark2.png',
+        };
+        function initMap() {
+          map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: crossroadsNFCoordinates, streetViewControl: false, fullscreenControl:false, mapTypeControl:false});
+          let marker = new google.maps.Marker({position: crossroadsNFCoordinates, map: map, icon: crossroadsLogomark2});
+          loadGroupsOnMap();
+        }
+        function loadGroupsOnMap() {
+          for(let i=0; i<groups.length; i++)  {
+            groupMarkers[i] = new google.maps.Marker({position: {lat: groups[i].lat, lng: groups[i].long}, map: map, icon: crossroadsLogomark});
+          }
+        }
+        function updateGroupsOnMap() {
+          groups.filter(function(group, i) {
+            for(let currFilter in group.filters) {
+              if(group.filters[currFilter]) { // of all the group's "true" filters
+                if(!filters[currFilter]) { // if that filter is not on
+                  groupMarkers[i].setMap(null);
+                  return false;
+                }
+              }
+            }
+            // Passed the filter, put on map
+            groupMarkers[i].setMap(map);
+          });
+        }
+
+        // Attach event listeners to all the checkboxes
+        for(let filter in filters) {
+          document.getElementById(filter).addEventListener('change', function() {
+            if(this.checked) {
+              filters[filter] = true;
+            } else {
+              filters[filter] = false;
+            }
+            updateGroupsOnMap();
+          });
+        }
+        
+
+        
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2DaiOMAPkaFQJ8JVsJaCz1yim1jDY_m4&callback=initMap">
+    </script>
+  </body>
+</html>
