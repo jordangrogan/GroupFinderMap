@@ -31,6 +31,7 @@
       }
 
       body, html {
+        font-family: 'Avenir Next';
         height: 100%;
         width: 100%;
         overflow-x: hidden;
@@ -49,7 +50,6 @@
        #controls {
          order: 1;
          width: 15%;
-         font-family: 'Avenir Next';
          padding: 15px;
          box-sizing: border-box;
        }
@@ -60,6 +60,10 @@
          width: 100%;
          text-align: center;
          font-weight: bold;
+       }
+       .groupInfo {
+         font-family: "Avenir Next";
+         padding: 5px;
        }
     </style>
   </head>
@@ -77,10 +81,11 @@
             </div>  
           <div class="filter">
             Age Range<br />
-            <input type="checkbox" id="age20s" checked /> <label for="age20s">20s</label><br />
+            <input type="checkbox" id="age20s" checked /> <label for="age20s">College-20s</label><br />
             <input type="checkbox" id="age30s" checked /> <label for="age30s">30s</label><br />
             <input type="checkbox" id="age40s" checked /> <label for="age40s">40s</label><br />
             <input type="checkbox" id="age50s" checked /> <label for="age50s">50s</label><br />
+            <input type="checkbox" id="age60s" checked /> <label for="age60s">60s+</label><br />
           </div>
           <div class="filter">
               Meeting Day<br />
@@ -114,6 +119,7 @@
             age30s: true,
             age40s: true,
             age50s: true,
+            age60s: true,
             dayMon: true,
             dayTues: true,
             dayWed: true,
@@ -156,6 +162,7 @@
           }
         ];
         let groupMarkers = [];
+        let groupInfoWindows = [];
         let crossroadsNFCoordinates = {lat: 40.440090, lng: -80.196000};
         let crossroadsLogomark = {
           url: 'crossroadslogomark.png',
@@ -170,7 +177,14 @@
         }
         function loadGroupsOnMap() {
           for(let i=0; i<groups.length; i++)  {
+            var contentString = '<div class="groupInfo"><h1>' + groups[i].name + '</h1>Leader: ' + groups[i].leader + '</div>';
+            groupInfoWindows[i] = new google.maps.InfoWindow({
+              content: contentString
+            });
             groupMarkers[i] = new google.maps.Marker({position: {lat: groups[i].lat, lng: groups[i].long}, map: map, icon: crossroadsLogomark});
+            groupMarkers[i].addListener('click', function() {
+              groupInfoWindows[i].open(map, groupMarkers[i]);
+            });
           }
         }
         function updateGroupsOnMap() {
