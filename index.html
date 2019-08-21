@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script type="text/javascript" src="MyFontsWebfontsKit.js"></script>
     <style>
 
       /* CSS Reset */
@@ -31,7 +32,8 @@
       }
 
       body, html {
-        font-family: 'Avenir Next';
+        font-family: AvenirLT-Light, "Avenir Next", sans-serif;
+        line-height: 150%;
         height: 100%;
         width: 100%;
         overflow-x: hidden;
@@ -57,12 +59,12 @@
          margin: 15px 0 15px 0;
        }
        h1 {
+        font-family: AvenirLT-Heavy, AvenirLT-Light, "Avenir Next", sans-serif;
          width: 100%;
          text-align: center;
-         font-weight: bold;
        }
        .groupInfo {
-         font-family: "Avenir Next";
+        font-family: AvenirLT-Light, "Avenir Next", sans-serif;
          padding: 5px;
        }
     </style>
@@ -160,6 +162,32 @@
               childcare: false,
               noChildcare: true
             }
+          }, {
+            name: "Another Small Group",
+            leader: "Jordan Grogan",
+            neighborhood: "Moon",
+            lat: 40.4286730,
+            long: -80.216240,
+            filters: {
+              typeMens: false,
+              typeWomens: false,
+              typeMixed: true,
+              age20s: true,
+              age30s: true,
+              age40s: false,
+              age50s: false,
+              dayMon: false,
+              dayTues: false,
+              dayWed: false,
+              dayThurs: true,
+              dayFri: false,
+              daySat: false,
+              timeMorning: false,
+              timeAfternoon: false,
+              timeEvening: true,
+              childcare: false,
+              noChildcare: true
+            }
           }
         ];
         let groupMarkers = [];
@@ -204,7 +232,7 @@
             groupMarkers[i].addListener('click', function() {
               groupInfoWindows[i].open(map, groupMarkers[i]);
             });
-            
+
           }
         }
         function updateGroupsOnMap() {
@@ -237,8 +265,18 @@
 
         
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2DaiOMAPkaFQJ8JVsJaCz1yim1jDY_m4&callback=initMap">
-    </script>
+    <script type='text/javascript' src='config.js'></script>
+    <script>      
+      function loadScript() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.defer = true;
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3' +
+            '&key=' + config.GOOGLE_API_KEY +'&callback=initMap'; //& needed
+        document.body.appendChild(script);
+      }  
+      window.onload = loadScript;
+      </script>
   </body>
 </html>
