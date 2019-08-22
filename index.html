@@ -70,6 +70,7 @@
     </style>
   </head>
   <body>
+
     <div id="container">
       <!--The div element for the map -->
       <div id="map"></div>
@@ -109,162 +110,14 @@
               <input type="checkbox" id="childcare" checked /> <label for="childcare">Yes</label><br />
               <input type="checkbox" id="noChildcare" checked /> <label for="noChildcare">No</label><br />
           </div>
+          <div class="filter">
+            <button id="reset" onclick="resetMapFilters()">Reset Map & Filters</button>
+          </div>
         </div>
     </div>
-    <script>
-        // Initialize and add the map
-        let filters = {
-            typeMens: true,
-            typeWomens: true,
-            typeMixed: true,
-            age20s: true,
-            age30s: true,
-            age40s: true,
-            age50s: true,
-            age60s: true,
-            dayMon: true,
-            dayTues: true,
-            dayWed: true,
-            dayThurs: true,
-            dayFri: true,
-            daySat: true,
-            timeMorning: true,
-            timeAfternoon: true,
-            timeEvening: true,
-            childcare: true,
-            noChildcare: true
-        };
-        let map;
-        const groups = [
-          {
-            name: "Mixed Young Adult Small Group",
-            leader: "Jordan Grogan",
-            neighborhood: "Moon",
-            lat: 40.508670,
-            long: -80.216240,
-            filters: {
-              typeMens: false,
-              typeWomens: false,
-              typeMixed: true,
-              age20s: true,
-              age30s: false,
-              age40s: false,
-              age50s: false,
-              dayMon: false,
-              dayTues: false,
-              dayWed: false,
-              dayThurs: true,
-              dayFri: false,
-              daySat: false,
-              timeMorning: false,
-              timeAfternoon: false,
-              timeEvening: true,
-              childcare: false,
-              noChildcare: true
-            }
-          }, {
-            name: "Another Small Group",
-            leader: "Jordan Grogan",
-            neighborhood: "Moon",
-            lat: 40.4286730,
-            long: -80.216240,
-            filters: {
-              typeMens: false,
-              typeWomens: false,
-              typeMixed: true,
-              age20s: true,
-              age30s: true,
-              age40s: false,
-              age50s: false,
-              dayMon: false,
-              dayTues: false,
-              dayWed: false,
-              dayThurs: true,
-              dayFri: false,
-              daySat: false,
-              timeMorning: false,
-              timeAfternoon: false,
-              timeEvening: true,
-              childcare: false,
-              noChildcare: true
-            }
-          }
-        ];
-        let groupMarkers = [];
-        let groupInfoWindows = [];
-        let crossroadsNFCoordinates = {lat: 40.440090, lng: -80.196000};
-        let crossroadsLogomark = {
-          url: 'crossroadslogomark.png',
-        };
-        let crossroadsLogomark2 = {
-          url: 'crossroadslogomark2.png',
-        };
-        function initMap() {
-          map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: crossroadsNFCoordinates, streetViewControl: false, fullscreenControl:false, mapTypeControl:false});
-          let marker = new google.maps.Marker({position: crossroadsNFCoordinates, map: map, icon: crossroadsLogomark2});
-          loadGroupsOnMap();
-        }
-        function loadGroupsOnMap() {
-          // For each group
-          for(let i=0; i<groups.length; i++) {
 
-            // Create info windows
-            let dayOfWeek = "";
-            let timeOfDay = "";
-            if(groups[i].filters.dayMon) dayOfWeek = "Monday";
-            if(groups[i].filters.dayTues) dayOfWeek = "Tuesday";
-            if(groups[i].filters.dayWed) dayOfWeek = "Wednesday";
-            if(groups[i].filters.dayThurs) dayOfWeek = "Thursday";
-            if(groups[i].filters.dayFri) dayOfWeek = "Friday";
-            if(groups[i].filters.daySat) dayOfWeek = "Saturday";
-            if(groups[i].filters.timeMorning) timeOfDay = "mornings";
-            if(groups[i].filters.timeAfternoon) timeOfDay = "afternoons";
-            if(groups[i].filters.timeEvening) timeOfDay = "evenings";
-            var contentString = '<div class="groupInfo"><h1>' + groups[i].name + '</h1>Leader: ' + groups[i].leader + '<br />Neighborhood: ' + groups[i].neighborhood + '<br />Meets ' + dayOfWeek + ' ' + timeOfDay + '<br /></div>';
-            groupInfoWindows[i] = new google.maps.InfoWindow({
-              content: contentString
-            });
-
-            // Create markers
-            groupMarkers[i] = new google.maps.Marker({position: {lat: groups[i].lat, lng: groups[i].long}, map: map, icon: crossroadsLogomark});
-
-            // Add click listener to markers to open info windows
-            groupMarkers[i].addListener('click', function() {
-              groupInfoWindows[i].open(map, groupMarkers[i]);
-            });
-
-          }
-        }
-        function updateGroupsOnMap() {
-          groups.filter(function(group, i) {
-            for(let currFilter in group.filters) {
-              if(group.filters[currFilter]) { // of all the group's "true" filters
-                if(!filters[currFilter]) { // if that filter is not on
-                  groupMarkers[i].setMap(null);
-                  return false;
-                }
-              }
-            }
-            // Passed the filter, put on map
-            groupMarkers[i].setMap(map);
-          });
-        }
-
-        // Attach event listeners to all the checkboxes
-        for(let filter in filters) {
-          document.getElementById(filter).addEventListener('change', function() {
-            if(this.checked) {
-              filters[filter] = true;
-            } else {
-              filters[filter] = false;
-            }
-            updateGroupsOnMap();
-          });
-        }
-        
-
-        
-    </script>
+    <script type="text/javascript" src="groups.js"></script>
+    <script type="text/javascript" src="scripts.js"></script>
     <script type='text/javascript' src='config.js'></script>
     <script>      
       function loadScript() {
@@ -272,7 +125,7 @@
         script.type = 'text/javascript';
         script.async = true;
         script.defer = true;
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3' + '&key=' + config.GOOGLE_API_KEY +'&callback=initMap';
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3' + '&key=' + config.GOOGLE_API_KEY +'&callback=onLoad';
         document.body.appendChild(script);
       }
       window.onload = loadScript;
