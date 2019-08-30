@@ -182,3 +182,12 @@ button:hover {
     background: #2bbaeb;
     cursor: pointer;
 }
+
+.hide {
+    display: none;
+}
+
+.success-msg {
+    color: #109830;
+    font-weight: bold;
+}

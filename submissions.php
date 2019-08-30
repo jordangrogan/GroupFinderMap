@@ -1,11 +1,18 @@
 <?php
-    if(isset($_POST['submit'])){
-        $name = htmlspecialchars(stripslashes(trim($_POST['name'])));
-        $group = htmlspecialchars(stripslashes(trim($_POST['group'])));
-        $email = htmlspecialchars(stripslashes(trim($_POST['email'])));
-        $phone = htmlspecialchars(stripslashes(trim($_POST['phone'])));
-        $to = 'jordan.grogan@xr.church';
-        $subject = "Group Interest - " + $name;
-        $body = "This person is interested in a group:\nName: $name\n E-mail: $email\n Phone: $phone\n Group: $group";
-        mail($to, $subject, $body);
-    }
+$name = htmlspecialchars(stripslashes(trim($_POST['name'])));
+$group = htmlspecialchars(stripslashes(trim($_POST['group'])));
+$email = htmlspecialchars(stripslashes(trim($_POST['email'])));
+$phone = htmlspecialchars(stripslashes(trim($_POST['phone'])));
+$to = 'jordan.grogan@xr.church';
+$subject = "Small Group Interest - " . $name;
+$body = "This person is interested in a small group:<br /><strong>Name</strong>: " . $name . "<br /><strong>Email</strong>: " . $email . "<br /><strong>Phone</strong>: " . $phone . "<br /><strong>Small Group</strong>: " . $group;
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+$headers .= 'From: "Crossroads Web Team" <webteam@xr.church>' . "\r\n";
+
+// Send email to small group team
+if(mail($to, $subject, $body, $headers)) {
+    http_response_code(200);
+} else {
+    http_response_code(400);
+}
