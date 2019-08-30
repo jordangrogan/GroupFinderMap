@@ -1,0 +1,184 @@
+/* CSS Reset */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
+/* HTML5 display-role reset for older browsers */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body,
+html {
+    font-family: AvenirLT-Light, "Avenir Next", sans-serif;
+    line-height: 150%;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    order: 0;
+    height: 100%;
+    width: 85%;
+}
+
+#controls {
+    order: 1;
+    width: 15%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.filter {
+    margin: 15px 0 15px 0;
+}
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 70%;
+    margin: auto;
+}
+
+h1 {
+    font-family: AvenirLT-Heavy, AvenirLT-Light, "Avenir Next", sans-serif;
+    width: 100%;
+    text-align: center;
+}
+
+.groupInfo {
+    font-family: AvenirLT-Light, "Avenir Next", sans-serif;
+    padding: 5px;
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 15px;
+    width: auto;
+    overflow: visible;
+    background: #007da9;
+    /* inherit font & color from ancestor */
+    color: white;
+    font: inherit;
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
+}
+
+button:hover {
+    background: #2bbaeb;
+    cursor: pointer;
+}

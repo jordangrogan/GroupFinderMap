@@ -1,134 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <script type="text/javascript" src="MyFontsWebfontsKit.js"></script>
-    <style>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-      /* CSS Reset */
-      html, body, div, span, applet, object, iframe,
-      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-      a, abbr, acronym, address, big, cite, code,
-      del, dfn, em, img, ins, kbd, q, s, samp,
-      small, strike, strong, sub, sup, tt, var,
-      b, u, i, center,
-      dl, dt, dd, ol, ul, li,
-      fieldset, form, label, legend,
-      table, caption, tbody, tfoot, thead, tr, th, td,
-      article, aside, canvas, details, embed, 
-      figure, figcaption, footer, header, hgroup, 
-      menu, nav, output, ruby, section, summary,
-      time, mark, audio, video {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        font-size: 100%;
-        font: inherit;
-        vertical-align: baseline;
-      }
-      /* HTML5 display-role reset for older browsers */
-      article, aside, details, figcaption, figure, 
-      footer, header, hgroup, menu, nav, section {
-        display: block;
-      }
-
-      body, html {
-        font-family: AvenirLT-Light, "Avenir Next", sans-serif;
-        line-height: 150%;
-        height: 100%;
-        width: 100%;
-        overflow-x: hidden;
-        overflow-y: hidden;
-      }
-      #container {
-        display: flex;
-        height: 100%;
-        width: 100%;
-      }
-      #map {
-        order: 0;
-        height: 100%;
-        width: 85%;
-       }
-       #controls {
-         order: 1;
-         width: 15%;
-         padding: 15px;
-         box-sizing: border-box;
-       }
-       .filter {
-         margin: 15px 0 15px 0;
-       }
-       h1 {
-        font-family: AvenirLT-Heavy, AvenirLT-Light, "Avenir Next", sans-serif;
-         width: 100%;
-         text-align: center;
-       }
-       .groupInfo {
-        font-family: AvenirLT-Light, "Avenir Next", sans-serif;
-         padding: 5px;
-       }
-    </style>
-  </head>
-  <body>
+<body>
 
     <div id="container">
-      <!--The div element for the map -->
-      <div id="map"></div>
-      <div id="controls">
-          <h1>Group Finder</h1>
-          <div class="filter">
-              Type<br />
-              <input type="checkbox" id="typeMixed" checked /> <label for="typeMixed">Mixed</label><br />
-              <input type="checkbox" id="typeMens" checked /> <label for="typeMens">Mens</label><br />
-              <input type="checkbox" id="typeWomens" checked /> <label for="typeWomens">Womens</label>
-            </div>  
-          <div class="filter">
-            Age Range<br />
-            <input type="checkbox" id="age20s" checked /> <label for="age20s">College-20s</label><br />
-            <input type="checkbox" id="age30s" checked /> <label for="age30s">30s</label><br />
-            <input type="checkbox" id="age40s" checked /> <label for="age40s">40s</label><br />
-            <input type="checkbox" id="age50s" checked /> <label for="age50s">50s</label><br />
-            <input type="checkbox" id="age60s" checked /> <label for="age60s">60s+</label><br />
-          </div>
-          <div class="filter">
-              Meeting Day<br />
-              <input type="checkbox" id="dayMon" checked /> <label for="dayMon">Monday</label><br />
-              <input type="checkbox" id="dayTues" checked /> <label for="dayTues">Tuesday</label><br />
-              <input type="checkbox" id="dayWed" checked /> <label for="dayWed">Wednesday</label><br />
-              <input type="checkbox" id="dayThurs" checked /> <label for="dayThurs">Thursday</label><br />
-              <input type="checkbox" id="dayFri" checked /> <label for="dayFri">Friday</label><br />
-              <input type="checkbox" id="daySat" checked /> <label for="daySat">Saturday</label>
-          </div>
-          <div class="filter">
-              Meeting Time<br />
-              <input type="checkbox" id="timeMorning" checked /> <label for="timeMorning">Morning</label><br />
-              <input type="checkbox" id="timeAfternoon" checked /> <label for="timeAfternoon">Afternoon</label><br />
-              <input type="checkbox" id="timeEvening" checked /> <label for="timeEvening">Evening</label>
-          </div>
-          <div class="filter">
-              Childcare Needed<br />
-              <input type="checkbox" id="childcare" checked /> <label for="childcare">Yes</label><br />
-              <input type="checkbox" id="noChildcare" checked /> <label for="noChildcare">No</label><br />
-          </div>
-          <div class="filter">
-            <button id="reset" onclick="resetMapFilters()">Reset Map & Filters</button>
-          </div>
+        <!--The div element for the map -->
+        <div id="map"></div>
+        <div id="controls">
+            <div class="logo"><img src="SmallGroupLogo.png" class="logo" /></div>
+            <h1>Group Finder</h1>
+            <div class="filter">
+                Type<br />
+                <input type="checkbox" id="typeMixed" checked /> <label for="typeMixed">Mixed</label><br />
+                <input type="checkbox" id="typeMens" checked /> <label for="typeMens">Mens</label><br />
+                <input type="checkbox" id="typeWomens" checked /> <label for="typeWomens">Womens</label>
+            </div>
+            <div class="filter">
+                Age Range<br />
+                <input type="checkbox" id="age20s" checked /> <label for="age20s">College-20s</label><br />
+                <input type="checkbox" id="age30s" checked /> <label for="age30s">30s</label><br />
+                <input type="checkbox" id="age40s" checked /> <label for="age40s">40s</label><br />
+                <input type="checkbox" id="age50s" checked /> <label for="age50s">50s</label><br />
+                <input type="checkbox" id="age60splus" checked /> <label for="age60splus">60s+</label><br />
+            </div>
+            <div class="filter">
+                Meeting Day<br />
+                <input type="checkbox" id="daySun" checked /> <label for="daySun">Sunday</label><br />
+                <input type="checkbox" id="dayMon" checked /> <label for="dayMon">Monday</label><br />
+                <input type="checkbox" id="dayTues" checked /> <label for="dayTues">Tuesday</label><br />
+                <input type="checkbox" id="dayWed" checked /> <label for="dayWed">Wednesday</label><br />
+                <input type="checkbox" id="dayThurs" checked /> <label for="dayThurs">Thursday</label><br />
+                <input type="checkbox" id="dayFri" checked /> <label for="dayFri">Friday</label><br />
+                <input type="checkbox" id="daySat" checked /> <label for="daySat">Saturday</label>
+            </div>
+            <div class="filter">
+                Meeting Time<br />
+                <input type="checkbox" id="timeMorning" checked /> <label for="timeMorning">Morning</label><br />
+                <input type="checkbox" id="timeAfternoon" checked /> <label for="timeAfternoon">Afternoon</label><br />
+                <input type="checkbox" id="timeEvening" checked /> <label for="timeEvening">Evening</label>
+            </div>
+            <div class="filter">
+                Childcare Needed<br />
+                <input type="checkbox" id="childcare" checked /> <label for="childcare">Yes</label><br />
+                <input type="checkbox" id="noChildcare" checked /> <label for="noChildcare">No</label><br />
+            </div>
+            <div class="filter">
+                <button id="reset" onclick="resetMapFilters()">Reset Map & Filters</button>
+            </div>
         </div>
     </div>
-
+    <!-- Load all the groups -->
     <script type="text/javascript" src="groups.js"></script>
+    <!-- Load the scripts & config file & Google Maps API-->
     <script type="text/javascript" src="scripts.js"></script>
     <script type='text/javascript' src='config.js'></script>
-    <script>      
-      function loadScript() {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.async = true;
-        script.defer = true;
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3' + '&key=' + config.GOOGLE_API_KEY +'&callback=onLoad';
-        document.body.appendChild(script);
-      }
-      window.onload = loadScript;
+    <script>
+        function loadScript() {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.defer = true;
+            script.src = 'https://maps.googleapis.com/maps/api/js?v=3' + '&key=' + config.GOOGLE_API_KEY + '&callback=onLoad';
+            document.body.appendChild(script);
+        }
+        window.onload = loadScript;
     </script>
-  </body>
+</body>
+
 </html>
