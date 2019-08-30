@@ -80,9 +80,23 @@ function loadGroupsOnMap() {
             groups[i].leader + '<br />Neighborhood: ' +
             groups[i].neighborhood + '<br />Meets ' +
             dayOfWeek + ' ' +
-            timeOfDay + '<br />Interested? We\'ll text you the details and<br />the leader of the group will reach out to you:<form>Name: <input type="text" name="name" class="input" /><br />Mobile Phone: <input type="text" name="mobile" class="input" /><br />Email: <input type="text" name="email" class="input" /></form></div>';
+            timeOfDay + '<br />Interested? We\'ll text you the details and<br />the leader of the group will reach out to you:<form id="interestform-' +
+            i + '">Name: <input type="text" name="name" class="input" /><br />Mobile Phone: <input type="text" name="phone" class="input" /><br />Email: <input type="text" name="email" class="input" /><input type="hidden" name="group" value="' +
+            groups[i].name + '" /><br /><input type="submit" name="Submit" value="Submit" /></form></div>';
         groupInfoWindows[i] = new google.maps.InfoWindow({
             content: contentString
+        });
+
+        // Add event listener to the interest form to prevent the page from reloading & to submit the interest form
+        google.maps.event.addListener(groupInfoWindows[i], 'domready', function() {
+            console.log('event listener');
+            document.getElementById("interestform-" + i).addEventListener("submit", function(e) {
+                var name = document.getElementById("interestform-" + i).elements["name"].value;
+                var phone = document.getElementById("interestform-" + i).elements["phone"].value;
+                var email = document.getElementById("interestform-" + i).elements["email"].value;
+                var group = document.getElementById("interestform-" + i).elements["group"].value;
+                submitInterestForm(e, name, phone, email, group);
+            });
         });
 
         // Create markers
@@ -133,4 +147,25 @@ function resetCheckboxes() {
     for (var filter in filters) {
         document.getElementById(filter).checked = true;
     }
+}
+
+function submitInterestForm(event, name, phone, email, group) {
+    event.preventDefault();
+    console.log("interest form submitted");
+    console.log(name);
+    console.log(phone);
+    console.log(email);
+    console.log(group);
+    var request = new XMLHttpRequest();
+    var url = "submissions.php";
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onreadystatechange = function() {
+        if (request.readyState === 4 && request.status === 200) {
+            var jsonData = JSON.parse(request.response);
+            console.log(jsonData);
+        }
+    };
+    var data = JSON.stringify({ "name": name, "email": email, "phone": phone, "group": group });
+    request.send(data);
 }
