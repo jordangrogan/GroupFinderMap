@@ -15,6 +15,7 @@ $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headers .= 'From: "Crossroads Web Team" <webteam@xr.church>' . "\r\n";
 
 /* TEXT TO USER */
+$phone = preg_replace("/[^0-9]/", "", $phone);
 $message =  "Here are the small group details:\n" . $group;
 $client = new Twilio\Rest\Client(TWILIO_SID, TWILIO_TOKEN);
 $message = $client->messages->create(
