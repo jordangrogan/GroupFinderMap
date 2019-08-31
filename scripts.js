@@ -170,7 +170,7 @@ function submitInterestForm(event, name, phone, email, group) {
 
     if (name && group) { // Only submit if name & group are defined
         var request = new XMLHttpRequest();
-        var url = "submissions.php?v=12";
+        var url = "submissions.php?v=19";
         request.open("POST", url, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.onreadystatechange = function() {
