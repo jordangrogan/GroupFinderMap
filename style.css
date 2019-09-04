@@ -157,6 +157,7 @@ h1 {
 .groupInfo {
     font-family: AvenirLT-Light, "Avenir Next", sans-serif;
     padding: 5px;
+    width: 250px;
 }
 
 button {

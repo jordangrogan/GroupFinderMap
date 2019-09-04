@@ -28,7 +28,7 @@ function resetMapFilters() {
 }
 
 function createMap() {
-    map = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: crossroadsNFCoordinates, streetViewControl: false, fullscreenControl: false, mapTypeControl: false });
+    map = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: crossroadsNFCoordinates, streetViewControl: false, fullscreenControl: false, mapTypeControl: false, clickableIcons: false });
     // Add church marker (center)
     let marker = new google.maps.Marker({ position: crossroadsNFCoordinates, map: map, icon: crossroadsLogomark2 });
 }
@@ -75,14 +75,16 @@ function loadGroupsOnMap() {
         if (groups[i].filters.timeMorning) timeOfDay = "mornings";
         if (groups[i].filters.timeAfternoon) timeOfDay = "afternoons";
         if (groups[i].filters.timeEvening) timeOfDay = "evenings";
-        var contentString = '<div class="groupInfo"><h1>' +
+        var contentString = '<div class="groupInfo"><h1 style="font-weight: bold;">' +
             groups[i].name + '</h1>Leader: ' +
-            groups[i].leader + '<br />Neighborhood: ' +
-            groups[i].neighborhood + '<br />Meets ' +
+            groups[i].leader + '<br />Meets ' +
             dayOfWeek + ' ' +
-            timeOfDay + '<br />Interested? We\'ll text you the details and<br />the leader of the group will reach out to you:<form id="interestform-' +
+            timeOfDay + '<br /><br />Interested? We\'ll text you the leader\'s information, and they will reach out to you with details about time and location.<form id="interestform-' +
             i + '">Name: <input type="text" name="name" class="input" /><br />Mobile Phone: <input type="text" name="phone" class="input" /><br />Email: <input type="text" name="email" class="input" /><input type="hidden" name="group" value="' +
-            groups[i].name + '" /><br /><input type="submit" name="Submit" value="Submit" /></form><div id="interestform-success-' +
+            groups[i].name + '" /><input type="hidden" name="leader" value="' +
+            groups[i].leader + '" /><input type="hidden" name="leaderphone" value="' +
+            groups[i].leaderphone + '" /><input type="hidden" name="leaderemail" value="' +
+            groups[i].leaderemail + '" /><br /><input type="submit" name="Submit" value="Submit" /></form><div id="interestform-success-' +
             i + '" class="hide success-msg">Success! You\'re good to go! A staff <br />member will soon connect you with this <br />group\'s small group leader.</div></div>';
         groupInfoWindows[i] = new google.maps.InfoWindow({
             content: contentString
@@ -97,9 +99,12 @@ function loadGroupsOnMap() {
                 var phone = document.getElementById("interestform-" + i).elements["phone"].value;
                 var email = document.getElementById("interestform-" + i).elements["email"].value;
                 var group = document.getElementById("interestform-" + i).elements["group"].value;
+                var leader = document.getElementById("interestform-" + i).elements["leader"].value;
+                var leaderphone = document.getElementById("interestform-" + i).elements["leaderphone"].value;
+                var leaderemail = document.getElementById("interestform-" + i).elements["leaderemail"].value;
 
                 console.log("Submitting form from " + name);
-                submitInterestForm(e, name, phone, email, group); // submit the form
+                submitInterestForm(e, name, phone, email, group, leader, leaderphone, leaderemail); // submit the form
                 this.classList.add("hide"); // hide the form
                 this.reset(); // clear fields
                 document.getElementById("interestform-success-" + i).classList.remove("hide"); // show the success message
@@ -163,14 +168,14 @@ function resetCheckboxes() {
     }
 }
 
-function submitInterestForm(event, name, phone, email, group) {
+function submitInterestForm(event, name, phone, email, group, leader, leaderphone, leaderemail) {
     event.preventDefault(); // prevent the form from refreshing the page
 
     console.log("Inside submit interest form from " + name);
 
     if (name && group) { // Only submit if name & group are defined
         var request = new XMLHttpRequest();
-        var url = "submissions.php?v=19";
+        var url = "submissions.php?v=20";
         request.open("POST", url, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.onreadystatechange = function() {
@@ -181,7 +186,7 @@ function submitInterestForm(event, name, phone, email, group) {
                 console.log("error");
             }
         };
-        request.send("name=" + name + "&email=" + email + "&phone=" + phone + "&group=" + group);
+        request.send("name=" + name + "&email=" + email + "&phone=" + phone + "&group=" + group + "&leader=" + leader + "&leaderphone=" + leaderphone + "&leaderemail=" + leaderemail);
     }
 
 }
